@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
-import { ResponsiveLine } from "@nivo/line";
 import { ResponsiveBar } from "@nivo/bar";
 import { fetchEnvironmentalData, type EnvironmentalData } from "@/services/aqi";
 import { ArrowUpIcon, ArrowDownIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
@@ -260,6 +259,9 @@ export function EnvironmentalAnalytics({ city }: EnvironmentalAnalyticsProps) {
           <div className="space-y-2">
             <div className="text-lg font-medium" style={{ color: getAqiColor(envData.current.aqi.value) }}>
               {envData.current.aqi.category}
+            </div>
+            <div className="text-sm text-gray-400">
+              Primary Pollutant: {getPrimaryPollutant()}
             </div>
             {envData.current.aqi.prediction && (
               <div className="space-y-2 bg-gradient-to-r from-blue-500/10 to-blue-600/5 p-3 rounded-lg">
