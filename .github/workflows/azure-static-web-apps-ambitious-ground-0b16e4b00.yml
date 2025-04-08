@@ -28,6 +28,8 @@ jobs:
           node-version: '20'
           
       - name: Install Dependencies and Build
+        env:
+          VITE_WAQI_API_KEY: demo
         run: |
           npm install
           npm run build
