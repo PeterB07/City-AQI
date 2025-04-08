@@ -30,13 +30,15 @@ jobs:
           npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          cd dist
+          zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: dist/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,8 +56,12 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+      - name: Create deployment directory and unzip artifact
+        run: |
+          mkdir -p deployment
+          mv release.zip deployment/
+          cd deployment
+          unzip release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -70,5 +76,5 @@ jobs:
         with:
           app-name: 'aqifinder'
           slot-name: 'Production'
-          package: .
+          package: ./deployment
           
